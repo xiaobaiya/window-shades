@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #main{
+            width: 650px;
+            height: 350px;
+            margin: 50px auto;
+            position: relative;
+        }
+        #main span{
+            width: 0;
+            height: 350px;
+            display: inline-block;
+            position: absolute;
+            top:0;
+            background-repeat: no-repeat;
+            transition:all 0.3s
+        }
+    </style>
+</head>
+<body>
+<div id="main" data = '0'></div>
+<input type="button" value="点击执行一次" id="btn" onclick="move()"/>
+<script>
+    function move () {
+        var btn = document.getElementById('btn');
+        btn.setAttribute('disabled','disabled');
+        var main = document.getElementById('main');
+        var index = parseInt(main.getAttribute('data'));
+        var data="lunbo"+index+".png";
+        index++;
+        console.log(index);
+        if(index>5){
+            index = 0;
+        }
+        for(var i=0; i<13; i++){
+            var span = document.createElement('span');
+            main.appendChild(span);
+        }
+        var spans = document.getElementsByTagName('span');
+        for(var i=0; i<spans.length; i++){
+            spans[i].style.left = 50 * i + 'px';
+            spans[i].style.backgroundImage = "url("+data+")";
+            spans[i].style.backgroundPosition = -50 * i + 'px';
+            setTimeout((function (i) {
+                return function () {
+                    spans[i].style.width = '50px';
+                }
+            })(i),i*50)
+        }
+        setTimeout(function () {
+            main.innerHTML = '';
+            main.style.backgroundImage = "url("+data+")";
+            main.setAttribute('data',index);
+            btn.removeAttribute('disabled');
+        },i*50+300)
+    }
+    move();
+</script>
+</body>
+</html>
